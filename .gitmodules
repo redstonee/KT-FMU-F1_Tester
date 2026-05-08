@@ -1,0 +1,6 @@
+[submodule "lib/ulog"]
+	path = lib/ulog
+	url = https://github.com/rdpoor/ulog
+[submodule "lib/ist8310"]
+	path = lib/ist8310
+	url = https://github.com/Srijal97/IST8310
