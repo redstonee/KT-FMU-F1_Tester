@@ -4,3 +4,9 @@
 [submodule "lib/ist8310"]
 	path = lib/ist8310
 	url = https://github.com/Srijal97/IST8310
+[submodule "lib/fatfs"]
+	path = lib/fatfs
+	url = https://github.com/stm32duino/FatFs
+[submodule "lib/sd"]
+	path = lib/sd
+	url = https://github.com/stm32duino/STM32SD
