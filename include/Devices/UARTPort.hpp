@@ -33,6 +33,13 @@ private:
             loge("Data length exceeds RX buffer size. Test failed.");
             return false;
         }
+        
+        // Clear any existing data in the buffer
+        while (_serial.available())
+        {
+            _serial.read();
+        }
+
         _serial.print(_testData);
 
         auto receivedData = _serial.readString();
@@ -41,12 +48,10 @@ private:
             loge("Data mismatch. Test failed.");
             return false;
         }
-        ULOG_INFO("UART test passed.");
         return true;
     }
 
 public:
     UARTPort(String name, HardwareSerial &serial, uint32_t txPin, uint32_t rxPin, const String &testData, uint32_t baudRate = 115200)
         : Device(name), _serial(serial), _txPin(txPin), _rxPin(rxPin), _baudRate(baudRate), _testData(testData) {}
-
 };
