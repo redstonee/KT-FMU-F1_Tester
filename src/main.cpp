@@ -2,7 +2,8 @@
 #include <USBSerial.h>
 #include <vector>
 
-#include <Devices/BMI088.hpp>
+#include <Devices/BMI088Dev.hpp>
+#include <Devices/BMI270Dev.hpp>
 #include <Devices/UARTPort.hpp>
 
 #include "config.h"
@@ -21,7 +22,8 @@ static UARTPort uart4("UART4", Serial4, UART4_TX_PIN, UART4_RX_PIN, serialTestDa
 static UARTPort uart6("UART6", Serial6, UART6_TX_PIN, UART6_RX_PIN, serialTestData, 115200);
 // UARTPort uart7("UART7", Serial7, UART7_TX_PIN, UART7_RX_PIN, serialTestData, 115200); // RX only, skip testing
 static UARTPort uart8("UART8", Serial8, UART8_TX_PIN, UART8_RX_PIN, serialTestData, 115200);
-static BMI088 bmi088("BMI088", SPI_IMU, BMI088A_CS_PIN, BMI088G_CS_PIN);
+static BMI088Dev bmi088("BMI088", SPI_IMU, BMI088A_CS_PIN, BMI088G_CS_PIN);
+static BMI270Dev bmi270("BMI270", SPI_IMU, BMI270_CS_PIN);
 
 constexpr uint8_t testTimes = 5;
 
@@ -74,6 +76,7 @@ void loop()
       &uart6,
       &uart8,
       &bmi088,
+      &bmi270,
   };
 
   while (SerialUSB.available())

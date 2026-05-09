@@ -4,13 +4,13 @@
 #include <SPI.h>
 #include <BMI088.h>
 
-class BMI088 : public Device
+class BMI088Dev : public Device
 {
 
 private:
     Bmi088 _imu;
-    
-    struct BMI088Data
+
+    struct Data
     {
         float accelX;
         float accelY;
@@ -25,11 +25,11 @@ private:
      * @brief Read data from the BMI088 sensor.
      * @return The read data.
      */
-    inline BMI088Data read()
+    inline Data read()
     {
-        _imu.readSensor();
         delay(10); // delay to ensure data is ready
-        return BMI088Data{
+        _imu.readSensor();
+        return Data{
             _imu.getAccelX_mss(),
             _imu.getAccelY_mss(),
             _imu.getAccelZ_mss(),
@@ -41,7 +41,13 @@ private:
 
     bool init() override
     {
-        return (_imu.begin() >= 0);
+        if (_imu.begin() < 0)
+            return false;
+            
+        if (!_imu.setOdr(Bmi088::ODR_400HZ))
+            return false;
+
+        return true;
     }
 
     bool test() override
@@ -65,6 +71,6 @@ private:
     }
 
 public:
-    BMI088(String name, SPIClass &bus, uint32_t acc_cs_pin, uint32_t gyro_cs_pin)
+    BMI088Dev(String name, SPIClass &bus, uint32_t acc_cs_pin, uint32_t gyro_cs_pin)
         : Device(name), _imu(bus, acc_cs_pin, gyro_cs_pin) {}
 };
