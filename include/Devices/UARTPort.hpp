@@ -22,6 +22,7 @@ private:
     {
         _serial.setTx(_txPin);
         _serial.setRx(_rxPin);
+        _serial.setTimeout(100); 
         _serial.begin(_baudRate);
         return true;
     }
@@ -33,7 +34,7 @@ private:
             loge("Data length exceeds RX buffer size. Test failed.");
             return false;
         }
-        
+
         // Clear any existing data in the buffer
         while (_serial.available())
         {
