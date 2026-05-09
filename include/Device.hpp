@@ -34,25 +34,19 @@ public:
         return result;
     }
 
-    bool runTest(uint8_t times)
+    uint8_t runTest(uint8_t times)
     {
         logi("Running test...");
-        bool result=true;
+        uint8_t successCount = 0;
 
         for (uint8_t i = 0; i < times; i++)
         {
-            if (!test())
-            {
-                result = false;
-                break;
-            }
+            successCount += test() ? 1 : 0;
         }
 
-        if (result)
-            logi("Test passed.\n");
-        else
-            loge("Test fucked up.\n");
-        return result;
+        char resultBuffer[50];
+        snprintf(resultBuffer, sizeof(resultBuffer), "Test completed: %u/%u passed.\n", successCount, times);
+        logi(resultBuffer);
+        return successCount;
     }
-
 };
