@@ -29,12 +29,12 @@ private:
             }
             delay(10);
         }
-        sensors_event_t baroEvent, tempEvent;
-        _baro.getEvents(&baroEvent, &tempEvent);
+        sensors_event_t pressureEvent, tempEvent;
+        _baro.getEvents(&tempEvent, &pressureEvent);
 
         // Formatting of float will fuck up, so just add them one by one.
         auto result = String("Sensor Data:\n") +
-                      "Pressure = " + String(baroEvent.pressure) + "\n" +
+                      "Pressure = " + String(pressureEvent.pressure) + "\n" +
                       "Temperature = " + String(tempEvent.temperature) + "\n";
 
         logi(result);
