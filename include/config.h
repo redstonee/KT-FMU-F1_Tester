@@ -63,6 +63,7 @@ constexpr auto BUZZER_PIN = PB15;
 
 constexpr auto VSENSE_PIN = PC0;
 constexpr auto ISENSE_PIN = PC1;
+constexpr auto VSENS_DIVIDER_RATIO = 21.f;
 
 constexpr auto SD_D0_PIN = PC8;
 constexpr auto SD_D1_PIN = PC9;

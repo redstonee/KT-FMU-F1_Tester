@@ -7,6 +7,7 @@
 #include <Devices/IST8310Dev.hpp>
 #include <Devices/DPS310Dev.hpp>
 #include <Devices/UARTPort.hpp>
+#include <Devices/ADCPort.hpp>
 
 #include "config.h"
 
@@ -92,10 +93,15 @@ static UARTPort uart4("UART4", Serial4, UART4_TX_PIN, UART4_RX_PIN, serialTestDa
 static UARTPort uart6("UART6", Serial6, UART6_TX_PIN, UART6_RX_PIN, serialTestData, 115200);
 // UARTPort uart7("UART7", Serial7, UART7_TX_PIN, UART7_RX_PIN, serialTestData, 115200); // RX only, skip testing
 static UARTPort uart8("UART8", Serial8, UART8_TX_PIN, UART8_RX_PIN, serialTestData, 115200);
+
 static BMI088Dev bmi088("BMI088", SPI_IMU, BMI088A_CS_PIN, BMI088G_CS_PIN);
 static BMI270Dev bmi270("BMI270", SPI_IMU, BMI270_CS_PIN);
+
 static IST8310Dev ist8310("IST8310", I2CInternal);
 static DPS310Dev dps310("DPS310", I2CInternal);
+
+static ADCPort vSensePort("Voltage Sensing", VSENSE_PIN, VSENS_DIVIDER_RATIO, 3.3, 10);
+static ADCPort iSensePort("Current Sensing", ISENSE_PIN, 1, 3.3, 10);
 
 constexpr uint8_t testTimes = 5;
 
@@ -112,6 +118,8 @@ void loop()
       &bmi270,
       &ist8310,
       &dps310,
+      &vSensePort,
+      &iSensePort,
   };
 
   while (SerialUSB.available())
