@@ -3,7 +3,7 @@
 	url = https://github.com/rdpoor/ulog
 [submodule "lib/ist8310"]
 	path = lib/ist8310
-	url = https://github.com/Srijal97/IST8310
+	url = https://github.com/redstonee/ist8310-arduino
 [submodule "lib/fatfs"]
 	path = lib/fatfs
 	url = https://github.com/stm32duino/FatFs
