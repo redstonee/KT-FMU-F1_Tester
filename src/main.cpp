@@ -16,24 +16,6 @@ static SPIClass SPI_AT7456E(SPI6_MOSI_PIN, SPI6_MISO_PIN, SPI6_SCK_PIN);
 static TwoWire I2CExternal(I2C1_SDA_PIN, I2C1_SCL_PIN);
 static TwoWire I2CInternal(I2C2_SDA_PIN, I2C2_SCL_PIN);
 
-static const String serialTestData = "Boy Next Door\n"
-                                     "I'm fucking coming!\n"
-                                     "Do you like what you see?\n";
-
-static UARTPort uart1("UART1", Serial1, UART1_TX_PIN, UART1_RX_PIN, serialTestData, 115200);
-static UARTPort uart2("UART2", Serial2, UART2_TX_PIN, UART2_RX_PIN, serialTestData, 115200);
-static UARTPort uart3("UART3", Serial3, UART3_TX_PIN, UART3_RX_PIN, serialTestData, 115200);
-static UARTPort uart4("UART4", Serial4, UART4_TX_PIN, UART4_RX_PIN, serialTestData, 115200);
-static UARTPort uart6("UART6", Serial6, UART6_TX_PIN, UART6_RX_PIN, serialTestData, 115200);
-// UARTPort uart7("UART7", Serial7, UART7_TX_PIN, UART7_RX_PIN, serialTestData, 115200); // RX only, skip testing
-static UARTPort uart8("UART8", Serial8, UART8_TX_PIN, UART8_RX_PIN, serialTestData, 115200);
-static BMI088Dev bmi088("BMI088", SPI_IMU, BMI088A_CS_PIN, BMI088G_CS_PIN);
-static BMI270Dev bmi270("BMI270", SPI_IMU, BMI270_CS_PIN);
-static IST8310Dev ist8310("IST8310", I2CInternal);
-static DPS310Dev dps310("DPS310", I2CInternal);
-
-constexpr uint8_t testTimes = 5;
-
 void blink()
 {
   static uint8_t n = 1;
@@ -73,7 +55,31 @@ void setup()
   SPI_AT7456E.begin();
   I2CInternal.begin();
   I2CExternal.begin();
+
+  for (auto pwmPort : PWMPorts)
+  {
+    auto timer = new HardwareTimer(pwmPort.timer);
+    timer->setPWM(pwmPort.channel, pwmPort.pin, 10, 50);
+  }
 }
+
+static const String serialTestData = "Boy Next Door\n"
+                                     "I'm fucking coming!\n"
+                                     "Do you like what you see?\n";
+
+static UARTPort uart1("UART1", Serial1, UART1_TX_PIN, UART1_RX_PIN, serialTestData, 115200);
+static UARTPort uart2("UART2", Serial2, UART2_TX_PIN, UART2_RX_PIN, serialTestData, 115200);
+static UARTPort uart3("UART3", Serial3, UART3_TX_PIN, UART3_RX_PIN, serialTestData, 115200);
+static UARTPort uart4("UART4", Serial4, UART4_TX_PIN, UART4_RX_PIN, serialTestData, 115200);
+static UARTPort uart6("UART6", Serial6, UART6_TX_PIN, UART6_RX_PIN, serialTestData, 115200);
+// UARTPort uart7("UART7", Serial7, UART7_TX_PIN, UART7_RX_PIN, serialTestData, 115200); // RX only, skip testing
+static UARTPort uart8("UART8", Serial8, UART8_TX_PIN, UART8_RX_PIN, serialTestData, 115200);
+static BMI088Dev bmi088("BMI088", SPI_IMU, BMI088A_CS_PIN, BMI088G_CS_PIN);
+static BMI270Dev bmi270("BMI270", SPI_IMU, BMI270_CS_PIN);
+static IST8310Dev ist8310("IST8310", I2CInternal);
+static DPS310Dev dps310("DPS310", I2CInternal);
+
+constexpr uint8_t testTimes = 5;
 
 void loop()
 {

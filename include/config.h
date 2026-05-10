@@ -9,16 +9,18 @@ struct TimerCfg
     uint8_t channel;
 };
 
-constexpr TimerCfg PWM1 = {PE14, TIM1, 4};
-constexpr TimerCfg PWM2 = {PE13, TIM1, 3};
-constexpr TimerCfg PWM3 = {PE11, TIM1, 2};
-constexpr TimerCfg PWM4 = {PE9, TIM1, 1};
-constexpr TimerCfg PWM5 = {PB1_ALT1, TIM3, 4};
-constexpr TimerCfg PWM6 = {PB0_ALT1, TIM3, 3};
-constexpr TimerCfg PWM7 = {PD12, TIM4, 1};
-constexpr TimerCfg PWM8 = {PD13, TIM4, 2};
-constexpr TimerCfg PWM9 = {PD14, TIM4, 3};
-constexpr TimerCfg PWM10 = {PD15, TIM4, 4};
+constexpr TimerCfg PWMPorts[] = {
+    {PE14, TIM1, 4},
+    {PE13, TIM1, 3},
+    {PE11, TIM1, 2},
+    {PE9, TIM1, 1},
+    {PB1_ALT1, TIM3, 4},
+    {PB0_ALT1, TIM3, 3},
+    {PD12, TIM4, 1},
+    {PD13, TIM4, 2},
+    {PD14, TIM4, 3},
+    {PD15, TIM4, 4},
+};
 
 constexpr auto UART1_TX_PIN = PA9;
 constexpr auto UART1_RX_PIN = PA10;
