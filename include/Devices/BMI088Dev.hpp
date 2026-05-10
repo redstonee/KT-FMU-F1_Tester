@@ -56,17 +56,15 @@ private:
 
         // Formatting of float will fuck up, so just add them one by one.
         auto result =
-            String("Sensor Data:\n") +
+            String("Sensor Data:\r\n") +
             "AccX = " + String(data.accelX) +
             ", AccY = " + String(data.accelY) +
             ", AccZ = " + String(data.accelZ) +
-            "\n" +
+            "\r\n" +
             "GyroX = " + String(data.gyroX) +
             ", GyroY = " + String(data.gyroY) +
             ", GyroZ = " + String(data.gyroZ) +
-            "\n" +
-            "Temperature = " + String(data.temperature) +
-            "\n";
+            "\r\n";
 
         logi(result);
         return true;

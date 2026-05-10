@@ -33,9 +33,9 @@ private:
         _baro.getEvents(&tempEvent, &pressureEvent);
 
         // Formatting of float will fuck up, so just add them one by one.
-        auto result = String("Sensor Data:\n") +
-                      "Pressure = " + String(pressureEvent.pressure) + "\n" +
-                      "Temperature = " + String(tempEvent.temperature) + "\n";
+        auto result = String("Sensor Data:\r\n") +
+                      "Pressure = " + String(pressureEvent.pressure) + "\r\n" +
+                      "Temperature = " + String(tempEvent.temperature) + "\r\n";
 
         logi(result);
         return true;

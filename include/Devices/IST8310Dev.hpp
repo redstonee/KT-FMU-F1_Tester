@@ -35,11 +35,11 @@ private:
         auto data = _mag.get_magnetometer();
         // Formatting of float will fuck up, so just add them one by one.
         auto result =
-            String("Sensor Data:\n") +
+            String("Sensor Data:\r\n") +
             "MagX = " + String(data->x) +
             ", MagY = " + String(data->y) +
             ", MagZ = " + String(data->z) +
-            "\n";
+            "\r\n";
         logi(result);
         return true;
     }

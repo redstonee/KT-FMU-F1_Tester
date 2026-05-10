@@ -28,9 +28,9 @@ public:
         logi("Initializing...");
         auto result = init();
         if (result)
-            logi("Initialization successful.\n");
+            logi("Initialization successful.\r\n");
         else
-            loge("Initialization failed.\n");
+            loge("Initialization failed.\r\n");
         return result;
     }
 
@@ -45,7 +45,7 @@ public:
         }
 
         char resultBuffer[50];
-        snprintf(resultBuffer, sizeof(resultBuffer), "Test completed: %u/%u passed.\n", successCount, times);
+        snprintf(resultBuffer, sizeof(resultBuffer), "Test completed: %u/%u passed.\r\n", successCount, times);
         logi(resultBuffer);
         return successCount;
     }

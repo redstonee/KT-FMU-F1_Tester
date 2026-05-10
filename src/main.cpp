@@ -18,15 +18,16 @@ static TwoWire I2CInternal(I2C2_SDA_PIN, I2C2_SCL_PIN);
 
 void blink()
 {
-  static uint8_t n = 1;
+  static uint8_t n = 0;
   // Active LOW
-  digitalWrite(LED_BLUE_PIN, !(n & 0b001));
-  digitalWrite(LED_RED_PIN, !(n & 0b010));
-  digitalWrite(LED_GREEN_PIN, !(n & 0b100));
+  digitalWrite(LED_BLUE_PIN, !(n == 0));
+  digitalWrite(LED_RED_PIN, !(n == 1));
+  digitalWrite(LED_GREEN_PIN, !(n == 2));
 
-  n <<= 1;
-  if (n > 0b111)
-    n = 1;
+  digitalWrite(SAFETY_LED_PIN, n % 2);
+
+  n++;
+  n %= 3;
 }
 
 void setup()
@@ -34,7 +35,23 @@ void setup()
   // Initialize SerialUSB for logging
   SerialUSB.begin();
   auto logger = [](ulog_level_t severity, char *msg)
-  { SerialUSB.printf("%d [%s]: %s\n", millis(), ulog_level_name(severity), msg); };
+  {
+    switch (severity)
+    {
+    case ULOG_WARNING_LEVEL:
+      SerialUSB.print("\033[33m");
+      break;
+    case ULOG_ERROR_LEVEL:
+    case ULOG_CRITICAL_LEVEL:
+      SerialUSB.print("\033[31m");
+      break;
+    case ULOG_INFO_LEVEL:
+      SerialUSB.print("\033[32m");
+    default:
+      break;
+    }
+    SerialUSB.printf("%d [%s]: %s\033[0m\r\n", millis(), ulog_level_name(severity), msg);
+  };
 
   ulog_init();
   ulog_subscribe(logger, ULOG_INFO_LEVEL);
@@ -42,6 +59,7 @@ void setup()
   pinMode(LED_BLUE_PIN, OUTPUT);
   pinMode(LED_RED_PIN, OUTPUT);
   pinMode(LED_GREEN_PIN, OUTPUT);
+  pinMode(SAFETY_LED_PIN, OUTPUT);
 
   pinMode(UART6_RX_INV_PIN, OUTPUT);
   digitalWrite(UART6_RX_INV_PIN, LOW); // Ensure normal operation of UART6;
