@@ -4,12 +4,17 @@
 
 #include <Devices/BMI088Dev.hpp>
 #include <Devices/BMI270Dev.hpp>
+#include <Devices/IST8310Dev.hpp>
+#include <Devices/DPS310Dev.hpp>
 #include <Devices/UARTPort.hpp>
 
 #include "config.h"
 
 static SPIClass SPI_IMU(SPI2_MOSI_PIN, SPI2_MISO_PIN, SPI2_SCK_PIN);
 static SPIClass SPI_AT7456E(SPI6_MOSI_PIN, SPI6_MISO_PIN, SPI6_SCK_PIN);
+
+static TwoWire I2CExternal(I2C1_SDA_PIN, I2C1_SCL_PIN);
+static TwoWire I2CInternal(I2C2_SDA_PIN, I2C2_SCL_PIN);
 
 static const String serialTestData = "Boy Next Door\n"
                                      "I'm fucking coming!\n"
@@ -24,6 +29,8 @@ static UARTPort uart6("UART6", Serial6, UART6_TX_PIN, UART6_RX_PIN, serialTestDa
 static UARTPort uart8("UART8", Serial8, UART8_TX_PIN, UART8_RX_PIN, serialTestData, 115200);
 static BMI088Dev bmi088("BMI088", SPI_IMU, BMI088A_CS_PIN, BMI088G_CS_PIN);
 static BMI270Dev bmi270("BMI270", SPI_IMU, BMI270_CS_PIN);
+static IST8310Dev ist8310("IST8310", I2CInternal);
+static DPS310Dev dps310("DPS310", I2CInternal);
 
 constexpr uint8_t testTimes = 5;
 
@@ -64,6 +71,8 @@ void setup()
 
   SPI_IMU.begin();
   SPI_AT7456E.begin();
+  I2CInternal.begin();
+  I2CExternal.begin();
 }
 
 void loop()
@@ -77,6 +86,8 @@ void loop()
       &uart8,
       &bmi088,
       &bmi270,
+      &ist8310,
+      &dps310,
   };
 
   while (SerialUSB.available())

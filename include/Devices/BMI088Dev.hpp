@@ -43,7 +43,7 @@ private:
     {
         if (_imu.begin() < 0)
             return false;
-            
+
         if (!_imu.setOdr(Bmi088::ODR_400HZ))
             return false;
 
@@ -53,6 +53,8 @@ private:
     bool test() override
     {
         auto data = read();
+
+        // Formatting of float will fuck up, so just add them one by one.
         auto result =
             String("Sensor Data:\n") +
             "AccX = " + String(data.accelX) +
