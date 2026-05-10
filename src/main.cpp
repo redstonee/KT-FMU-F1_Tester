@@ -17,7 +17,9 @@ static SPIClass SPI_AT7456E(SPI6_MOSI_PIN, SPI6_MISO_PIN, SPI6_SCK_PIN);
 static TwoWire I2CExternal(I2C1_SDA_PIN, I2C1_SCL_PIN);
 static TwoWire I2CInternal(I2C2_SDA_PIN, I2C2_SCL_PIN);
 
-void blink()
+static bool buttonPressed = false;
+
+void handleTimer()
 {
   static uint8_t n = 0;
   // Active LOW
@@ -26,6 +28,16 @@ void blink()
   digitalWrite(LED_GREEN_PIN, !(n == 2));
 
   digitalWrite(SAFETY_LED_PIN, n % 2);
+
+  if (buttonPressed)
+  {
+    buttonPressed = false;
+    digitalWrite(BUZZER_PIN, HIGH);
+  }
+  else
+  {
+    digitalWrite(BUZZER_PIN, LOW);
+  }
 
   n++;
   n %= 3;
@@ -61,13 +73,17 @@ void setup()
   pinMode(LED_RED_PIN, OUTPUT);
   pinMode(LED_GREEN_PIN, OUTPUT);
   pinMode(SAFETY_LED_PIN, OUTPUT);
+  pinMode(BUZZER_PIN, OUTPUT);
 
   pinMode(UART6_RX_INV_PIN, OUTPUT);
   digitalWrite(UART6_RX_INV_PIN, LOW); // Ensure normal operation of UART6;
 
+  attachInterrupt(SAFETY_SW_PIN, []()
+                  { buttonPressed = true; }, FALLING);
+
   static HardwareTimer blinkTimer(TIM12);
   blinkTimer.setOverflow(5, HERTZ_FORMAT);
-  blinkTimer.attachInterrupt(blink);
+  blinkTimer.attachInterrupt(handleTimer);
   blinkTimer.resume();
 
   SPI_IMU.begin();
