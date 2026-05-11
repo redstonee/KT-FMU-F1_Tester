@@ -8,6 +8,8 @@
 #include <Devices/DPS310Dev.hpp>
 #include <Devices/UARTPort.hpp>
 #include <Devices/ADCPort.hpp>
+#include <Devices/SDCardDev.hpp>
+#include <Devices/MAX7456Dev.hpp>
 
 #include "config.h"
 
@@ -112,12 +114,15 @@ static UARTPort uart8("UART8", Serial8, UART8_TX_PIN, UART8_RX_PIN, serialTestDa
 
 static BMI088Dev bmi088("BMI088", SPI_IMU, BMI088A_CS_PIN, BMI088G_CS_PIN);
 static BMI270Dev bmi270("BMI270", SPI_IMU, BMI270_CS_PIN);
+static MAX7456Dev max7456("MAX7456", SPI_AT7456E, AT7456E_CS_PIN);
 
 static IST8310Dev ist8310("IST8310", I2CInternal);
 static DPS310Dev dps310("DPS310", I2CInternal);
 
 static ADCPort vSensePort("Voltage Sensing", VSENSE_PIN, VSENS_DIVIDER_RATIO, 3.3, 10);
 static ADCPort iSensePort("Current Sensing", ISENSE_PIN, 1, 3.3, 10);
+
+static SDCardDev sdCard("SD Card", SD_CLK_PIN, SD_CMD_PIN, SD_D0_PIN, SD_D1_PIN, SD_D2_PIN, SD_D3_PIN);
 
 constexpr uint8_t testTimes = 5;
 
@@ -132,10 +137,12 @@ void loop()
       &uart8,
       &bmi088,
       &bmi270,
+      &max7456,
       &ist8310,
       &dps310,
       &vSensePort,
       &iSensePort,
+      &sdCard,
   };
 
   while (SerialUSB.available())

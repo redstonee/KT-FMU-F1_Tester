@@ -10,3 +10,6 @@
 [submodule "lib/sd"]
 	path = lib/sd
 	url = https://github.com/stm32duino/STM32SD
+[submodule "lib/max7456"]
+	path = lib/max7456
+	url = https://github.com/neomilium/arduino-max7456
