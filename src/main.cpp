@@ -6,6 +6,7 @@
 #include <Devices/BMI270Dev.hpp>
 #include <Devices/IST8310Dev.hpp>
 #include <Devices/DPS310Dev.hpp>
+#include <Devices/AW2023Dev.hpp>
 #include <Devices/UARTPort.hpp>
 #include <Devices/ADCPort.hpp>
 #include <Devices/SDCardDev.hpp>
@@ -118,6 +119,7 @@ static MAX7456Dev max7456("MAX7456", SPI_AT7456E, AT7456E_CS_PIN);
 
 static IST8310Dev ist8310("IST8310", I2CInternal);
 static DPS310Dev dps310("DPS310", I2CInternal);
+static AW2023Dev aw2023("AW2023", I2CExternal);
 
 static ADCPort vSensePort("Voltage Sensing", VSENSE_PIN, VSENS_DIVIDER_RATIO, 3.3, 10);
 static ADCPort iSensePort("Current Sensing", ISENSE_PIN, 1, 3.3, 10);
@@ -143,6 +145,7 @@ void loop()
       &vSensePort,
       &iSensePort,
       &sdCard,
+      &aw2023,
   };
 
   while (SerialUSB.available())
