@@ -9,13 +9,13 @@ class MAX7456Dev : public Device
 {
 
 private:
-    SPIClass &_bus;
     Max7456 _osd;
-    uint32_t _csPin;
 
     bool init() override
     {
-        _osd.init(_csPin);
+        if (!_osd.init())
+            return false;
+            
         _osd.setDisplayOffsets(60, 18);
         _osd.setBlinkParams(_8fields, _BT_BT);
 
@@ -34,5 +34,5 @@ private:
 
 public:
     MAX7456Dev(String name, SPIClass &bus, uint32_t csPin)
-        : Device(name), _bus(bus), _csPin(csPin) {}
+        : Device(name), _osd(bus, csPin) {}
 };
